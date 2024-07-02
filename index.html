@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="DialogCC: An Automated Pipeline for Creating High-Quality Multi-Modal Dialogue Dataset">
+  <meta name="keywords" content="multi-modal dialogue, dialogcc">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DialogCC: An Automated Pipeline for Creating High-Quality Multi-Modal Dialogue Dataset</title>
+
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h2 class="title is-2 publication-title">DialogCC: An Automated Pipeline for Creating High-Quality Multi-Modal Dialogue Dataset</h2>
+          <!-- <h3 class="title is-3">Accepted to <a href="https://jmlr.org/tmlr/">TMLR</a> 02/2024</h3> -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://sites.google.com/view/passing2961/home">Young-Jun Lee</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/byungsooko/">Byungsoo Ko</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/hangyu-kim-65581531/?originalSubdomain=kr">Han-Gyu Kim</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a>Jonghwan Hyeon</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://fvancesco.github.io/">Ho-Jin Choi</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>School of Computing, KAIST</span>
+            <span class="author-block"><sup>2</sup>NAVER Vision</span>
+            <span class="author-block"><sup>3</sup>NAVER Cloud Multimodal AI</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2212.04119"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/passing2961/DialogCC"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/passing2961/dialogcc"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-database"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            As sharing images in an instant message is a crucial factor, there has been active research on learning an image-text multi-modal dialogue models. However, training a well-generalized multi-modal dialogue model remains challenging due to the low quality and limited diversity of images per dialogue in existing multi-modal dialogue datasets. In this paper, we propose an automated pipeline to construct a multi-modal dialogue dataset, ensuring both dialogue quality and image diversity without requiring minimum human effort. In our pipeline, to guarantee the coherence between images and dialogue, we prompt GPT-4 to infer potential image-sharing moments - specifically, the utterance, speaker, rationale, and image description. Furthermore, we leverage CLIP similarity to maintain consistency between aligned multiple images to the utterance. Through this pipeline, we introduce DialogCC, a high-quality and diverse multi-modal dialogue dataset that surpasses existing datasets in terms of quality and diversity in human evaluation. Our comprehensive experiments highlight that when multi-modal dialogue models are trained using our dataset, their generalization performance on unseen dialogue datasets is significantly enhanced.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Proposed Pipeline</h2>
+
+
+        <img src="./static/images/pipeline.svg" alt="method" width="100%">
+        
+        <div class="content has-text-justified">
+          <p>
+          In order to construct DialogCC, we introduce an automatic pipeline, which consists of three steps: (1) collecting, (2) aligning, and (3) filtering. 
+          <ul>
+            <li><b>Collecting:</b> We collect five multi-turn text-only social dialogue datasets (i.e., Persona-Chat, EmpatheticDialogues, Wizard-of-Wikipedia, DailyDialog, BlendedSkillTalk) and Conceptual Captions 3M (CC3M).</li>
+            <li><b>Aligning:</b> After collecting source datasets, to ensure image-dialogue coherence, we ask GPT-4 to infer all possible image-sharing moments via zero-shot prompting and leverage the CLIP to increase the aligned image relevancy.</li>
+            <li><b>Filtering:</b> We eliminate inappropriate images based on CLIP similarity for image-image consistency.</li>  
+          </ul>
+        </p>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">DialogCC</h2>
+
+        <img src="./static/images/dialogcc_example.svg" alt="dialogcc" width="80%">
+        
+        
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Findings</h2>
+
+        <h2 class="title is-4">Finding 1: DialogCC contributes to the model’s robustness.</h2>
+          <img src="./static/images/main_result.svg" alt="method" width="80%">
+        
+          <div class="content has-text-justified">
+            <p>
+              Although the scale of DialogCC is significantly smaller than MMDialog (83K vs. 1M), DialogCC contributes to the model’s understanding of the unseen dialogue dataset on both tasks. This suggests that increasing the quality of the dataset is more important than the scale.
+            
+          </p>
+            
+          </div>
+        
+        <h2 class="title is-4">Finding 2: DialogCC improves the comprehension of the interaction between dialogue and images.</h2>
+          <img src="./static/images/finding2.png" alt="method" width="80%">
+        
+          <div class="content has-text-justified">
+            <p>
+              The model trained on DialogCC outperforms those trained on other datasets. This indicates that DialogCC significantly improves the model’s comprehension of the interaction between dialogue and images, even when the imagegrounded dialogue datasets encompass various patterns in multi-modal dialogue scenarios. This improvement is attributed to DialogCC’s high-quality and diverse images, underscoring the reliability of our pipeline.
+            
+          </p>
+            
+          </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>TBD</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/abs/2212.04119">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/passing2961/DialogCC" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
